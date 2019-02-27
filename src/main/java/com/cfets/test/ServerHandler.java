@@ -1,9 +1,18 @@
 package com.cfets.test;
 
 import org.apache.mina.core.service.IoHandlerAdapter;
+import org.apache.mina.core.session.IdleStatus;
 import org.apache.mina.core.session.IoSession;
 
 public class ServerHandler extends IoHandlerAdapter {
+    //当会话进入idle状态时，断开连接
+    @Override
+    public void sessionIdle(IoSession session, IdleStatus status) throws Exception {
+        System.out.println("-客户端与服务端连接[空闲] - " + status.toString());
+        if(session != null){
+            session.closeNow();
+        }
+    }
     @Override
     public void sessionCreated(IoSession session) {
         System.out.println("我是服务端，会话创建");
